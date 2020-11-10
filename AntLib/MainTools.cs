@@ -13,7 +13,6 @@ namespace AntLib
     {
 
         internal string AppName { get; set; }
-
         /// <summary>
         /// Returns the string between two or more characters
         /// </summary>
@@ -162,7 +161,7 @@ namespace AntLib
         {
             if(AppName == null || AppName == "")
             {
-
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "Log.logs", "[" + DateTime.Now + "]" + TextToAppend + Environment.NewLine);
             }
             else
             {
