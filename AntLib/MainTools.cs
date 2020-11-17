@@ -17,6 +17,8 @@ namespace AntLib
         /// </summary>
         public string ConfigDir { get; set; }
 
+        public string DefaultConfig { get; set; }
+
         public string AppName { get; set; }
         /// <summary>
         /// Returns the string between two or more characters
@@ -179,9 +181,9 @@ namespace AntLib
         /// <param name="Property"></param>
         /// <param name="DefaultConfig"></param>
         /// <returns></returns>
-        public string ReadFromConfig(string Property, string DefaultConfig)
+        public string ReadFromConfig(string Property, string ConfigDir)
         {
-            CheckConfig(DefaultConfig);
+            CheckConfig(ConfigDir);
             string Config = File.ReadAllText(ConfigDir);
             if (Property == "IP")
             {
@@ -190,7 +192,12 @@ namespace AntLib
             }
             else if (Property == "Port")
             {
-                string StringToReturn = GetElement(Config, "/Port", "\\");
+                string StringToReturn = GetElement(Config, "/Port ", "\\");
+                return StringToReturn;
+            }
+            else if (Property == "Status")
+            {
+                string StringToReturn = GetElement(Config, "/Status ", "\\");
                 return StringToReturn;
             }
             else
@@ -202,12 +209,12 @@ namespace AntLib
         /// <summary>
         /// Checks the config file and verifies that it exists, if it doesn't then it creates a default one, if a default config file is created then it returns true
         /// </summary>
-        /// <param name="DefaultConfig"></param>
-        public bool CheckConfig(string DefaultConfig)
+        /// <param name="ConfigDir"></param>
+        public bool CheckConfig(string ConfigDir)
         {
-            if (File.Exists(DefaultConfig) == false)
+            if (File.Exists(ConfigDir) == false)
             {
-                File.WriteAllText(DefaultConfig, DefaultConfig);
+                File.WriteAllText(ConfigDir, DefaultConfig);
                 return false;
             }
             else
